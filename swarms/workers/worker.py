@@ -1,5 +1,6 @@
+import random
 import os
-from typing import Dict, List, Optional, Union
+from typing import Dict, Union
 
 import faiss
 from langchain.docstore import InMemoryDocstore
@@ -13,7 +14,7 @@ from swarms.tools.autogpt import (
     ReadFileTool,
     WebpageQATool,
     WriteFileTool,
-    compile,
+    # compile,
     load_qa_with_sources_chain,
     process_csv,
 )
@@ -30,7 +31,7 @@ class Worker:
 
     Parameters:
     - `model_name` (str): The name of the language model to be used (default: "gpt-4").
-    - `openai_api_key` (str): The OpenAI API key (optional).
+    - `openai_api_key` (str): The OpenvAI API key (optional).
     - `ai_name` (str): The name of the AI worker.
     - `ai_role` (str): The role of the AI worker.
     - `external_tools` (list): List of external tools (optional).
@@ -73,6 +74,11 @@ class Worker:
         self.openai_api_key = openai_api_key
         self.ai_name = ai_name
         self.ai_role = ai_role
+        self.coordinates = (
+            random.randint(0, 100),
+            random.randint(0, 100),
+        )  # example coordinates for proximity
+
         self.setup_tools(external_tools)
         self.setup_memory()
         self.setup_agent()
@@ -132,7 +138,7 @@ class Worker:
             process_csv,
             query_website_tool,
             HumanInputRun(),
-            compile,
+            # compile,
             # VQAinference,
         ]
         if external_tools is not None:
@@ -142,8 +148,9 @@ class Worker:
         """
         Set up memory for the worker.
         """
+        openai_api_key = os.getenv("OPENAI_API_KEY") or self.openai_api_key
         try:
-            embeddings_model = OpenAIEmbeddings(openai_api_key=self.openai_api_key)
+            embeddings_model = OpenAIEmbeddings(openai_api_key=openai_api_key)
             embedding_size = 1536
             index = faiss.IndexFlatL2(embedding_size)
 
@@ -280,3 +287,11 @@ class Worker:
             return {"content": message}
         else:
             return message
+
+    def is_within_proximity(self, other_worker):
+        """Using Euclidean distance for proximity check"""
+        distance = (
+            (self.coordinates[0] - other_worker.coordinates[0]) ** 2
+            + (self.coordinates[1] - other_worker.coordinates[1]) ** 2
+        ) ** 0.5
+        return distance < 10  # threshold for proximity

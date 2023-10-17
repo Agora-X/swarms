@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "swarms"
-version = "1.7.9"
+version = "1.8.2"
 description = "Swarms - Pytorch"
 license = "MIT"
 authors = ["Kye Gomez <kye@apac.ai>"]
@@ -46,11 +46,13 @@ redis = "*"
 Pillow = "*"
 chromadb = "*"
 agent-protocol = "*"
-exxa = "*"
 open-interpreter = "*"
 tabulate = "*"
 termcolor = "*"
 black = "*"
+dalle3 = "*"
+torchvision = "*"
+
 
 [tool.poetry.dev-dependencies]
 first_dependency = {git = "https://github.com/IDEA-Research/GroundingDINO.git"}

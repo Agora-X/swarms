@@ -78,26 +78,36 @@ nav:
 - Swarms:
   - Overview: "swarms/index.md"
   - swarms.swarms:
+    - AbstractSwarm: "swarms/swarms/abstractswarm.md"
     - AutoScaler: "swarms/swarms/autoscaler.md"
+    - GodMode: "swarms/swarms/godmode.md"
   - swarms.workers:
+    - AbstractWorker: "swarms/workers/base.md"
     - Overview: "swarms/workers/index.md"
     - AbstractWorker: "swarms/workers/abstract_worker.md"
   - swarms.agents:
     - AbstractAgent: "swarms/agents/abstract_agent.md"
     - OmniModalAgent: "swarms/agents/omni_agent.md"
+    - Idea2Image: "swarms/agents/idea_to_image.md"
   - swarms.models:
     - Overview: "swarms/models/index.md"
     - HuggingFaceLLM: "swarms/models/hf.md"
     - Anthropic: "swarms/models/anthropic.md"
+    - OpenAI: "swarms/models/openai.md"
   - swarms.structs:
     - Overview: "swarms/structs/overview.md"
     - Workflow: "swarms/structs/workflow.md"
-    
+  - swarms.memory:
+    - PineconeVectorStoreStore: "swarms/memory/pinecone.md"
+    - PGVectorStore: "swarms/memory/pg.md"
 - Examples:
     - Overview: "examples/index.md"
     - Agents:
       - OmniAgent: "examples/omni_agent.md"
-    - Worker: "examples/worker.md"
+    - Worker: 
+      - Basic: "examples/worker.md"
+      - StackedWorker: "examples/stacked_worker.md"
+    
 - Applications:
     - CustomerSupport: 
       - Overview: "applications/customer_support.md"

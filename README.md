@@ -46,7 +46,7 @@ We have a small gallery of examples to run here, [for more check out the docs to
 ```python
 from swarms.workers import Worker
 from swarms.swarms import MultiAgentDebate, select_speaker
-from langchain.llms import OpenAIChat
+from swarms.models import OpenAIChat
 
 llm = OpenAIChat(
     model_name='gpt-4', 
@@ -103,9 +103,11 @@ for result in results:
 
 ### `Worker`
 - The `Worker` is an fully feature complete agent with an llm, tools, and a vectorstore for long term memory!
+- Place your api key as parameters in the llm if you choose!
+- And, then place the openai api key in the Worker for the openai embedding model
 
 ```python
-from langchain.llms import ChatOpenAI
+from swarms.models import ChatOpenAI
 from swarms.workers import Worker
 
 llm = ChatOpenAI(
@@ -117,6 +119,8 @@ llm = ChatOpenAI(
 node = Worker(
     llm=llm,
     ai_name="Optimus Prime",
+    #openai key for the embeddings
+    openai_api_key="sk-eee"
     ai_role="Worker in a swarm",
     external_tools = None,
     human_in_the_loop = False,
@@ -135,7 +139,7 @@ print(response)
 - OmniModal Agent is an LLM that access to 10+ multi-modal encoders and diffusers! It can generate images, videos, speech, music and so much more, get started with:
 
 ```python
-from langchain.llms import OpenAIChat
+from swarms.models import OpenAIChat
 from swarms.agents import OmniModalAgent
 
 

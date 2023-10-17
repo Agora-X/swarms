@@ -6,9 +6,23 @@ from swarms.agents.message import Message
 
 class Mistral:
     """
-    Mistral
+    Mistral is an all-new llm
+
+    Args:
+        ai_name (str, optional): Name of the AI. Defaults to "Mistral".
+        system_prompt (str, optional): System prompt. Defaults to None.
+        model_name (str, optional): Model name. Defaults to "mistralai/Mistral-7B-v0.1".
+        device (str, optional): Device to use. Defaults to "cuda".
+        use_flash_attention (bool, optional): Whether to use flash attention. Defaults to False.
+        temperature (float, optional): Temperature. Defaults to 1.0.
+        max_length (int, optional): Max length. Defaults to 100.
+        do_sample (bool, optional): Whether to sample. Defaults to True.
+
+    Usage:
+    from swarms.models import Mistral
 
     model = Mistral(device="cuda", use_flash_attention=True, temperature=0.7, max_length=200)
+
     task = "My favourite condiment is"
     result = model.run(task)
     print(result)
@@ -53,6 +67,23 @@ class Mistral:
             raise ValueError(f"Error loading the Mistral model: {str(e)}")
 
     def run(self, task: str):
+        """Run the model on a given task."""
+
+        try:
+            model_inputs = self.tokenizer([task], return_tensors="pt").to(self.device)
+            generated_ids = self.model.generate(
+                **model_inputs,
+                max_length=self.max_length,
+                do_sample=self.do_sample,
+                temperature=self.temperature,
+                max_new_tokens=self.max_length,
+            )
+            output_text = self.tokenizer.batch_decode(generated_ids)[0]
+            return output_text
+        except Exception as e:
+            raise ValueError(f"Error running the model: {str(e)}")
+
+    def __call__(self, task: str):
         """Run the model on a given task."""
 
         try:
